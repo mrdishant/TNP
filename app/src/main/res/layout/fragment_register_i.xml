@@ -1,0 +1,240 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="in.ac.gndec.tnp.registerI">
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/loginscreen2"
+        >
+
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                android:id="@+id/progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:indeterminate="true"
+                android:visibility="gone"
+                android:layout_height="wrap_content" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:layout_marginTop="15dp"
+                    android:textSize="18dp"
+                    android:text="Hi Tell Us About Yourself"/>
+
+
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_margin="10dp"
+                    app:cardCornerRadius="10dp"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Roll Number :"/>
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content"
+                            android:hint="College Roll No."
+                            app:met_floatingLabel="highlight"
+                            android:textSize="16dp"
+                            android:inputType="number"
+                            android:id="@+id/college"
+                            app:met_floatingLabelText="College Roll No."
+                            app:met_primaryColor="@color/colorPrimary"
+                            />
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content"
+                            android:hint="University Roll No."
+                            app:met_floatingLabel="highlight"
+                            android:textSize="16dp"
+                            android:inputType="number"
+                            android:id="@+id/university"
+                            app:met_floatingLabelText="University Roll No."
+                            app:met_primaryColor="@color/colorPrimary"
+                            />
+
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_margin="10dp"
+                    app:cardCornerRadius="10dp"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Father/Guardian's Details:"/>
+
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content"
+                            android:hint="Name"
+                            android:id="@+id/fname"
+                            android:inputType="textPersonName"
+                            app:met_floatingLabel="highlight"
+                            android:textSize="16dp"
+                            app:met_floatingLabelText="Name"
+                            app:met_primaryColor="@color/colorPrimary"
+                            />
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content"
+                            android:hint="Occupation"
+                            android:id="@+id/foccupation"
+                            android:inputType="text"
+                            app:met_floatingLabel="highlight"
+                            android:textSize="16dp"
+                            app:met_floatingLabelText="Occupation"
+                            app:met_primaryColor="@color/colorPrimary"
+                            />
+
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content"
+                            android:hint="Contact"
+                            android:id="@+id/fcontact"
+                            android:inputType="phone"
+                            app:met_floatingLabel="highlight"
+                            android:textSize="16dp"
+                            app:met_floatingLabelText="Contact"
+                            app:met_primaryColor="@color/colorPrimary"
+                            />
+
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_margin="10dp"
+                    app:cardCornerRadius="10dp"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Mother's Details:"/>
+
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content"
+                            android:hint="Name"
+                            android:id="@+id/mname"
+                            android:inputType="textPersonName"
+                            app:met_floatingLabel="highlight"
+                            android:textSize="16dp"
+                            app:met_floatingLabelText="Name"
+                            app:met_primaryColor="@color/colorPrimary"
+                            />
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content"
+                            android:hint="Occupation"
+                            android:id="@+id/moccupation"
+                            android:inputType="text"
+                            app:met_floatingLabel="highlight"
+                            android:textSize="16dp"
+                            app:met_floatingLabelText="Occupation"
+                            app:met_primaryColor="@color/colorPrimary"
+                            />
+
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content"
+                            android:hint="Contact"
+                            android:id="@+id/mcontact"
+                            android:inputType="number"
+                            app:met_floatingLabel="highlight"
+                            android:textSize="16dp"
+                            app:met_floatingLabelText="Contact"
+                            app:met_primaryColor="@color/colorPrimary"
+                            />
+
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_marginBottom="150dp"
+                app:fabSize="normal"
+                android:background="@color/colorPrimary"
+                android:translationZ="5dp"
+                android:id="@+id/fab1"
+                android:src="@drawable/arrow"
+                android:backgroundTint="@null"
+                />
+
+        </android.support.design.widget.CoordinatorLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+
+</FrameLayout>

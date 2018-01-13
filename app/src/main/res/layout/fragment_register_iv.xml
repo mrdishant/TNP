@@ -1,0 +1,232 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="in.ac.gndec.tnp.registerIV">
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/loginscreen2"
+        >
+
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/mywidget"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:scrollHorizontally="true"
+                    android:textColor="#ff4500"
+                    android:text="Simple application that shows how to use marquee, with a long text"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:textSize="18dp"
+                    android:text="Academic Details"/>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="18dp"
+                    android:layout_margin="15dp"
+                    android:text="Please Select"/>
+
+
+
+                <RadioGroup
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="12th"
+                        android:id="@+id/radio1"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:textColor="@color/colorPrimary"
+                        />
+
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Diploma"
+                        android:id="@+id/radio2"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:textColor="@color/colorPrimary"
+                        />
+
+
+
+                </RadioGroup>
+
+
+
+
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_margin="10dp"
+                    android:id="@+id/plus2"
+                    android:visibility="gone"
+                    app:cardCornerRadius="10dp"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:id="@+id/details"
+                            android:layout_height="wrap_content"
+                            android:text="12th Standard :"/>
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content"
+                            android:hint="School"
+                            android:id="@+id/school"
+                            app:met_floatingLabel="highlight"
+                            android:textSize="16dp"
+                            app:met_floatingLabelText="School"
+                            app:met_primaryColor="@color/colorPrimary"
+                            />
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content"
+                            android:hint="Board"
+                            android:id="@+id/board"
+                            app:met_floatingLabel="highlight"
+                            android:textSize="16dp"
+                            app:met_floatingLabelText="Board"
+                            app:met_primaryColor="@color/colorPrimary"
+                            />
+
+
+
+
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content"
+                            android:hint="Marks Obtained"
+                            android:id="@+id/marks"
+                            android:inputType="number"
+                            app:met_floatingLabel="highlight"
+                            android:textSize="16dp"
+                            app:met_floatingLabelText="Marks Obtained"
+                            app:met_primaryColor="@color/colorPrimary"
+                            />
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content"
+                            android:hint="Total"
+                            android:id="@+id/total"
+                            android:inputType="number"
+                            app:met_floatingLabel="highlight"
+                            android:textSize="16dp"
+                            app:met_floatingLabelText="Total"
+                            app:met_primaryColor="@color/colorPrimary"
+                            />
+
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content"
+                            android:hint="Percentage"
+                            android:id="@+id/percentage"
+                            android:inputType="text"
+                            android:enabled="false"
+                            app:met_floatingLabel="highlight"
+                            android:textSize="16dp"
+                            app:met_floatingLabelText="Percentage"
+                            app:met_primaryColor="@color/colorPrimary"
+                            />
+
+                        <ImageView
+                            android:layout_margin="15dp"
+                            android:layout_width="100dp"
+                            android:id="@+id/imageview"
+                            android:src="@mipmap/ic_launcher_round"
+                            android:layout_height="150dp"
+                            android:layout_gravity="center"/>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp" />
+
+            </LinearLayout>
+
+
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|left"
+                app:fabSize="normal"
+                android:background="@color/colorPrimary"
+                android:translationZ="5dp"
+                android:id="@+id/fab1"
+                android:src="@drawable/backarrow"
+                android:backgroundTint="@null"
+                />
+
+
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                app:fabSize="normal"
+                android:background="@color/colorPrimary"
+                android:translationZ="5dp"
+                android:id="@+id/fab2"
+                android:src="@drawable/arrow"
+                android:backgroundTint="@null"
+                />
+
+        </android.support.design.widget.CoordinatorLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</FrameLayout>

@@ -1,0 +1,187 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="in.ac.gndec.tnp.registerII">
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/loginscreen2"
+        >
+
+
+
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_marginTop="480dp"
+                android:visibility="gone"
+                android:id="@+id/progress"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:textSize="18dp"
+                    android:text="A Little Bit More"/>
+
+
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_margin="10dp"
+                    app:cardCornerRadius="10dp"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Personal Details:"/>
+
+                        <com.rengwuxian.materialedittext.MaterialAutoCompleteTextView
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content"
+                            android:hint="Branch"
+                            android:id="@+id/branch"
+                            app:met_floatingLabel="highlight"
+                            android:textSize="16dp"
+                            app:met_floatingLabelText="Branch"
+                            app:met_primaryColor="@color/colorPrimary"
+                            />
+
+                        <TextView
+                            android:layout_marginTop="5dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Shift:"/>
+
+                        <Spinner
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content"
+                            android:text="Shift"
+                            android:id="@+id/shift"
+                            />
+
+
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content"
+                            android:hint="Height"
+                            android:id="@+id/height"
+                            android:inputType="numberDecimal"
+                            app:met_floatingLabel="highlight"
+                            android:textSize="16dp"
+                            app:met_floatingLabelText="Height"
+                            app:met_primaryColor="@color/colorPrimary"
+                            />
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content"
+                            android:hint="Weight"
+                            android:id="@+id/weight"
+                            android:inputType="numberDecimal"
+                            app:met_floatingLabel="highlight"
+                            android:textSize="16dp"
+                            app:met_floatingLabelText="Weight"
+                            app:met_primaryColor="@color/colorPrimary"
+                            />
+
+
+                        <TextView
+                            android:layout_marginTop="5dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Blood Group:"/>
+
+                        <Spinner
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content"
+                            android:text="Blood Group"
+                            android:id="@+id/blood"
+                            />
+
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="wrap_content"
+                            android:hint="Category"
+                            android:id="@+id/category"
+                            android:inputType="text"
+                            app:met_floatingLabel="highlight"
+                            android:textSize="16dp"
+                            app:met_floatingLabelText="Category"
+                            app:met_primaryColor="@color/colorPrimary"
+                            />
+
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp" />
+
+            </LinearLayout>
+
+
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|left"
+                app:fabSize="normal"
+                android:background="@color/colorPrimary"
+                android:translationZ="5dp"
+                android:id="@+id/fab1"
+                android:src="@drawable/backarrow"
+                android:backgroundTint="@null"
+                />
+
+
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                app:fabSize="normal"
+                android:background="@color/colorPrimary"
+                android:translationZ="5dp"
+                android:id="@+id/fab2"
+                android:src="@drawable/arrow"
+                android:backgroundTint="@null"
+                />
+
+        </android.support.design.widget.CoordinatorLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</FrameLayout>
