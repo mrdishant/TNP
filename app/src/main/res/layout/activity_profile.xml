@@ -4,57 +4,289 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/wall"
     tools:context="in.ac.gndec.tnp.Profile">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:layout_width="match_parent"
-            android:layout_height="170dp">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:id="@+id/image"
-                android:layout_height="wrap_content"
-                />
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark">
 
         <android.support.v7.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:title="Profile"
             android:id="@+id/toolbar"
-            app:titleTextColor="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/backarrow"
-            />
+            app:title="Profile"
+            app:titleTextColor="@android:color/white" />
 
-        </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
-
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_marginTop="170dp"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="12dp">
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="25dp"
+            android:orientation="vertical">
+
+
+          <android.support.v4.view.ViewPager
+              android:layout_width="match_parent"
+              android:id="@+id/viewpager"
+              android:layout_marginTop="25dp"
+              android:layout_height="250dp"/>
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="5dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/personal"
+                        android:drawablePadding="10dp"
+                        android:text="Father's Details"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_margin="10dp"
+                        android:background="@android:color/darker_gray" />
+
+
+                    <TextView
+                        android:id="@+id/fname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/username"
+                        android:drawablePadding="10dp"
+                        android:textColor="@android:color/black" />
+
+                    <TextView
+                        android:id="@+id/foccupation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:drawableLeft="@drawable/occupation"
+                        android:drawablePadding="10dp"
+                        android:text="Father's Occupation : "
+                        android:textColor="@android:color/black" />
+
+                    <TextView
+                        android:id="@+id/fcontact"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:drawableLeft="@drawable/contact"
+                        android:drawablePadding="10dp"
+                        android:text="Father's Contact : "
+                        android:textColor="@android:color/black" />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="5dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/personal"
+                        android:drawablePadding="10dp"
+                        android:text="Mother's Details"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_margin="10dp"
+                        android:background="@android:color/darker_gray" />
+
+
+                    <TextView
+                        android:id="@+id/mname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/username"
+                        android:drawablePadding="10dp"
+                        android:text="Mother's Name"
+                        android:textColor="@android:color/black" />
+
+                    <TextView
+                        android:id="@+id/moccupation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:drawableLeft="@drawable/occupation"
+                        android:drawablePadding="10dp"
+                        android:text="Mother's Occupation : "
+                        android:textColor="@android:color/black" />
+
+                    <TextView
+                        android:id="@+id/mcontact"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:drawableLeft="@drawable/contact"
+                        android:drawablePadding="10dp"
+                        android:text="Mother's Contact : "
+                        android:textColor="@android:color/black" />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/academic"
+                        android:drawablePadding="10dp"
+                        android:text="Academic Details"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_margin="10dp"
+                        android:background="@android:color/darker_gray" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="10th"
+                        android:textColor="@android:color/holo_red_light"
+                        android:textSize="19dp" />
+
+
+                    <TextView
+                        android:id="@+id/i10school"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="School"
+                        android:textColor="@android:color/black"
+                        android:textSize="16dp" />
+
+
+                    <TextView
+                        android:id="@+id/i10board"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Board"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="10dp" />
+
+                    <TextView
+                        android:id="@+id/i10percentage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Percentage"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_margin="10dp"
+                        android:background="@android:color/darker_gray" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="12th or Diploma"
+                        android:textColor="@android:color/holo_red_light"
+                        android:textSize="19dp" />
+
+
+                    <TextView
+                        android:id="@+id/i12school"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="School"
+                        android:textColor="@android:color/black"
+                        android:textSize="16dp" />
+
+
+                    <TextView
+                        android:id="@+id/i12board"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Board"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="10dp" />
+
+                    <TextView
+                        android:id="@+id/i12percentage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Percentage"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18dp" />
+
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/details"
-                />
+                android:enabled="false"
+                android:text="Tnp Gndec"
+                android:textAlignment="center"
+                android:textColor="@android:color/white" />
 
 
         </LinearLayout>
 
 
-
     </android.support.v4.widget.NestedScrollView>
-
 
 </android.support.design.widget.CoordinatorLayout>

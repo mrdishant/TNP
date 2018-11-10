@@ -18,7 +18,10 @@
         </activity>
         <activity android:name=".LoginSignup" />
         <activity android:name=".RegisterUser" />
-        <activity android:name=".Profile"></activity>
+        <activity android:name=".Profile" />
+
+        <activity android:name=".DashboardActivity"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

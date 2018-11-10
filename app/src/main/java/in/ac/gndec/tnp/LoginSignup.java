@@ -1,48 +1,61 @@
 package in.ac.gndec.tnp;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Region;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.UploadTask;
 import com.shobhitpuri.custombuttons.GoogleSignInButton;
+
+import Model.Student;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class LoginSignup extends AppCompatActivity implements View.OnClickListener{
 
     private static final int RC_SIGN_IN =7623 ;
+    private static final int REQUEST_CODE =7567 ;
     EditText name,email,password;
-    Button login;
+    Button login,logintxt,signuptxt;
     TextView newAccount;
     GoogleSignInButton googleSignInButton;
     FirebaseAuth auth;
+    ImageView logo;
+    CircleImageView profile;
     ProgressBar progressBar;
-
+    DialogLoading dialogLoading;
     private GoogleSignInClient signInClient;
     private GoogleSignInOptions gso;
+    boolean loaded=false;
+    private Uri url2;
 
 
     @Override
@@ -62,15 +75,24 @@ public class LoginSignup extends AppCompatActivity implements View.OnClickListen
 
     private void initviews() {
 
+
+        dialogLoading=new DialogLoading(LoginSignup.this);
+        dialogLoading.setCancelable(false);
         login=(Button)findViewById(R.id.login);
+        logintxt=(Button)findViewById(R.id.loginbtn);
+        signuptxt=(Button)findViewById(R.id.signupbtn);
         name=(EditText)findViewById(R.id.name);
         email=(EditText)findViewById(R.id.email);
         password=(EditText)findViewById(R.id.password);
         googleSignInButton=(GoogleSignInButton)findViewById(R.id.googlebutton);
-        newAccount=(TextView)findViewById(R.id.newaccount);
         progressBar=(ProgressBar)findViewById(R.id.progress);
-
+        logo=(ImageView)findViewById(R.id.logo);
+        profile=(CircleImageView)findViewById(R.id.profile);
+        newAccount=(TextView)findViewById(R.id.textsignup);
+        profile.setOnClickListener(this);
         login.setOnClickListener(this);
+        logintxt.setOnClickListener(this);
+        signuptxt.setOnClickListener(this);
         googleSignInButton.setOnClickListener(this);
         newAccount.setOnClickListener(this);
 
@@ -82,18 +104,47 @@ public class LoginSignup extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View view) {
 
+        if(view==profile){
+            Intent intent=new Intent();
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+            startActivityForResult(intent,REQUEST_CODE);
+        }
+
         if(view == newAccount){
-            if(newAccount.getText().equals("Create New Account")){
-                newAccount.setText("Already a Member? Login Here");
-                name.setVisibility(View.VISIBLE);
-                googleSignInButton.setText("Sign Up with Google");
-                login.setText("Sign Up");
-            }else{
-                newAccount.setText("Create New Account");
-                name.setVisibility(View.GONE);
-                googleSignInButton.setText("Sign In with Google");
-                login.setText("Login");
-            }
+            logo.setVisibility(View.GONE);
+            profile.setVisibility(View.VISIBLE);
+            newAccount.setVisibility(View.GONE);
+            logintxt.setBackgroundResource(android.R.color.transparent);
+            signuptxt.setBackgroundResource(R.drawable.btnback);
+            name.setVisibility(View.VISIBLE);
+            googleSignInButton.setText("Sign Up with Google");
+            login.setText("Sign Up");
+        }
+
+        if(view == signuptxt){
+
+            logo.setVisibility(View.GONE);
+            profile.setVisibility(View.VISIBLE);
+            newAccount.setVisibility(View.GONE);
+            logintxt.setBackgroundResource(android.R.color.transparent);
+            signuptxt.setBackgroundResource(R.drawable.btnback);
+            name.setVisibility(View.VISIBLE);
+            googleSignInButton.setText("Sign Up with Google");
+            login.setText("Sign Up");
+
+        }
+
+        if(view == logintxt){
+
+            logo.setVisibility(View.VISIBLE);
+            profile.setVisibility(View.GONE);
+            signuptxt.setBackgroundResource(android.R.color.transparent);
+            logintxt.setBackgroundResource(R.drawable.btnback);
+            newAccount.setVisibility(View.VISIBLE);
+            name.setVisibility(View.GONE);
+            googleSignInButton.setText("Sign In with Google");
+            login.setText("Login");
         }
 
         if(view == login){
@@ -102,16 +153,16 @@ public class LoginSignup extends AppCompatActivity implements View.OnClickListen
             String p=password.getText().toString();
 
             if(login.getText().equals("Login")){
-                if (validate(e,p,null)){
-                    progressBar.setVisibility(View.VISIBLE);
+                if (validate(e,p,null,true)){
+                    dialogLoading.showdialog("Loging in..");
                     auth.signInWithEmailAndPassword(e,p).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            progressBar.setVisibility(View.GONE);
                             if(task.isSuccessful()){
-                                startActivity(new Intent(LoginSignup.this,MainActivity.class));
+                                startActivity(new Intent(LoginSignup.this,DashboardActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                                 finish();
                             }else{
+                                dialogLoading.dismiss();
                                 Toast.makeText(getApplicationContext(),"Error : "+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -119,8 +170,8 @@ public class LoginSignup extends AppCompatActivity implements View.OnClickListen
                 }
             }else{
                 final String n=name.getText().toString();
-                if(validate(e,p,n)){
-                    progressBar.setVisibility(View.VISIBLE);
+                if(validate(e,p,n,loaded)){
+                    dialogLoading.showdialog("Authenticating...");
                     auth.createUserWithEmailAndPassword(e,p).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -131,9 +182,8 @@ public class LoginSignup extends AppCompatActivity implements View.OnClickListen
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
-                                                progressBar.setVisibility(View.GONE);
                                                 if(task.isSuccessful()){
-                                                    register();
+                                                    upload(url2);
                                                 }else{
                                                     Toast.makeText(getApplicationContext(),"Error : "+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                                                 }
@@ -141,7 +191,7 @@ public class LoginSignup extends AppCompatActivity implements View.OnClickListen
                                         });
 
                             }else{
-                                progressBar.setVisibility(View.GONE);
+                                dialogLoading.dismiss();
                                 Toast.makeText(getApplicationContext(),"Error : "+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -156,14 +206,13 @@ public class LoginSignup extends AppCompatActivity implements View.OnClickListen
 
     }
 
-    private boolean validate(String e,String p,String n) {
+    private boolean validate(String e,String p,String n,boolean loaded1) {
 
         if(e.isEmpty()){
             email.setError("Email is Required");
             email.requestFocus();
             return false;
         }
-
 
         if(p.isEmpty()){
             password.setError("Password is Required");
@@ -194,6 +243,12 @@ public class LoginSignup extends AppCompatActivity implements View.OnClickListen
             return false;
         }
 
+        if(!loaded1){
+            Toast.makeText(getApplicationContext(),"Image Required",Toast.LENGTH_SHORT).show();
+            profile.requestFocus();
+            return false;
+        }
+
         return true;
     }
 
@@ -205,6 +260,19 @@ public class LoginSignup extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==REQUEST_CODE){
+            if(resultCode== Activity.RESULT_OK){
+                if(data.getData()!=null){
+                    Glide.with(getApplicationContext()).load(data.getData()).centerCrop().into(profile);
+                    loaded=true;
+                    url2=data.getData();
+                }
+            }else{
+                Toast.makeText(getApplicationContext(),"Cancelled",Toast.LENGTH_SHORT).show();
+            }
+        }
+
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
@@ -224,7 +292,7 @@ public class LoginSignup extends AppCompatActivity implements View.OnClickListen
     private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        progressBar.setVisibility(View.VISIBLE);
+        dialogLoading.showdialog("Authenticating..");
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -236,14 +304,15 @@ public class LoginSignup extends AppCompatActivity implements View.OnClickListen
                                     .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                        if(!documentSnapshot.exists()){
-                                            Student student=new Student();
+                                        if(documentSnapshot.exists()){
+                                           startActivity(new Intent(LoginSignup.this,DashboardActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                                           finish();
+                                        }else { Student student=new Student();
                                             student.setName(auth.getCurrentUser().getDisplayName());
                                             FirebaseFirestore.getInstance().collection("Students").document(auth.getUid()).set(student)
                                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                         @Override
                                                         public void onComplete(@NonNull Task<Void> task) {
-                                                            progressBar.setVisibility(View.GONE);
                                                             if(task.isSuccessful()){
                                                                 register();
                                                             }else{
@@ -252,9 +321,6 @@ public class LoginSignup extends AppCompatActivity implements View.OnClickListen
                                                         }
                                                     });
 
-                                        }else {
-                                            startActivity(new Intent(LoginSignup.this,MainActivity.class));
-                                            finish();
                                         }
                                 }
                             });
@@ -262,7 +328,6 @@ public class LoginSignup extends AppCompatActivity implements View.OnClickListen
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(getApplicationContext(), "Authentication Failed " + task.getException().getMessage(), Toast.LENGTH_SHORT);
-                            progressBar.setVisibility(View.GONE);
                         }
                     }
                 });
@@ -271,9 +336,48 @@ public class LoginSignup extends AppCompatActivity implements View.OnClickListen
 
     private void register() {
 
-        startActivity(new Intent(LoginSignup.this, RegisterUser.class));
+        startActivity(new Intent(LoginSignup.this, RegisterUser.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         finish();
 
+    }
+
+    private void upload(Uri data) {
+
+
+        FirebaseStorage.getInstance().getReference("Students/"+FirebaseAuth.getInstance().getUid()).putFile(data)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        if(taskSnapshot.getDownloadUrl()!=null){
+
+                            change(taskSnapshot.getDownloadUrl());
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                dialogLoading.dismiss();
+                Toast.makeText(getApplicationContext(),"Error: "+e.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    public void change(Uri url){
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(name.getText().toString())
+                .setPhotoUri(url)
+                .build();
+
+        auth.getCurrentUser().updateProfile(profileUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            register();
+                        }
+                    }
+                });
     }
 
 

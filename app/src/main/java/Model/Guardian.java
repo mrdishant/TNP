@@ -1,4 +1,4 @@
-package in.ac.gndec.tnp;
+package Model;
 
 /**
  * Created by mrdis on 1/11/2018.
@@ -6,7 +6,7 @@ package in.ac.gndec.tnp;
 
 public class Guardian {
 
-    String name,occupation,contact;
+    public String name,occupation,contact;
 
     public Guardian() {
     }

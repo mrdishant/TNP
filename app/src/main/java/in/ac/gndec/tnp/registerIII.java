@@ -1,12 +1,10 @@
 package in.ac.gndec.tnp;
 
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -27,6 +25,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.UploadTask;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import Interface.change;
+import Model.MarkSheet;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,9 +40,10 @@ public class registerIII extends Fragment implements View.OnClickListener {
     TextView details;
     ImageView imageView;
     MarkSheet markSheet;
-    ProgressDialog progressDialog;
-    FloatingActionButton floatingActionButton;
+    DialogLoading dialogLoading;
+    ImageView floatingActionButton;
     boolean loaded=false;
+    private ImageView floatingActionButton2;
 
     public registerIII() {
 
@@ -54,7 +56,8 @@ public class registerIII extends Fragment implements View.OnClickListener {
 
 
         View view=inflater.inflate(R.layout.fragment_register_iii, container, false);
-
+        dialogLoading=new DialogLoading(getContext());
+        dialogLoading.setCancelable(false);
         initViews(view);
 
 
@@ -69,11 +72,6 @@ public class registerIII extends Fragment implements View.OnClickListener {
         percentage=(MaterialEditText)view.findViewById(R.id.percentage);
         total=(MaterialEditText)view.findViewById(R.id.total);
 
-        progressDialog=new ProgressDialog(getContext());
-        progressDialog.setMessage("Saving");
-        progressDialog.setCancelable(false);
-
-
         details=(TextView)view.findViewById(R.id.details);
 
         imageView=(ImageView)view.findViewById(R.id.imageview);
@@ -82,8 +80,13 @@ public class registerIII extends Fragment implements View.OnClickListener {
         imageView.setOnClickListener(this);
 
 
-        floatingActionButton=(FloatingActionButton)view.findViewById(R.id.fab2);
+        floatingActionButton=(ImageView) view.findViewById(R.id.fab2);
         floatingActionButton.setOnClickListener(this);
+
+
+        floatingActionButton2=(ImageView) view.findViewById(R.id.fab1);
+        floatingActionButton2.setOnClickListener(this);
+
 
         marks.addTextChangedListener(new TextWatcher() {
             @Override
@@ -151,6 +154,11 @@ public class registerIII extends Fragment implements View.OnClickListener {
 
         }
 
+        if(view == floatingActionButton2){
+            change i=(change)getActivity();
+            i.changePage(1);
+        }
+
     }
 
     private boolean validate() {
@@ -199,15 +207,15 @@ public class registerIII extends Fragment implements View.OnClickListener {
         markSheet.setPercentage(percentage.getText().toString());
         markSheet.setSchool(school.getText().toString());
 
-        progressDialog.show();
+        dialogLoading.showdialog("Saving..");
 
         FirebaseFirestore.getInstance().collection("Students").document(FirebaseAuth.getInstance().getUid()).collection("Marksheets").document("10th")
                 .set(markSheet).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                progressDialog.dismiss();
+                dialogLoading.dismiss();
                     if(task.isSuccessful()){
-                        change i=(change)getActivity();
+                        change i=(change)getContext();
                         i.changePage(3);
                     }else{
                         Toast.makeText(getContext(),"Some Error Occured",Toast.LENGTH_SHORT).show();
@@ -236,21 +244,21 @@ public class registerIII extends Fragment implements View.OnClickListener {
     }
 
     private void upload(Uri data) {
-    progressDialog.show();
+    dialogLoading.showdialog("Uploading..");
 
-        FirebaseStorage.getInstance().getReference("Marksheets/"+FirebaseAuth.getInstance().getUid()+"/"+System.currentTimeMillis()).putFile(data)
+        FirebaseStorage.getInstance().getReference("Marksheets/"+FirebaseAuth.getInstance().getUid()+"/10th").putFile(data)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         if(taskSnapshot.getDownloadUrl()!=null){
-                            progressDialog.dismiss();
+                            dialogLoading.dismiss();
                             markSheet.setPicture(taskSnapshot.getDownloadUrl().toString());
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                progressDialog.dismiss();
+                dialogLoading.dismiss();
                 Toast.makeText(getContext(),"Error: "+e.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });

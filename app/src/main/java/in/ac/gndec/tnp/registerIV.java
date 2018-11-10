@@ -1,12 +1,10 @@
 package in.ac.gndec.tnp;
 
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.text.Editable;
@@ -14,7 +12,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -30,6 +27,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.UploadTask;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import Interface.change;
+import Model.MarkSheet;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,8 +42,8 @@ public class registerIV extends Fragment implements View.OnClickListener {
     TextView details;
     ImageView imageView;
     MarkSheet markSheet;
-    ProgressDialog progressDialog;
-    FloatingActionButton floatingActionButton;
+    DialogLoading dialogLoading;
+    ImageView floatingActionButton,floatingActionButton2;
     boolean loaded=false;
     String doc;
     CardView cardView;
@@ -74,10 +74,8 @@ public class registerIV extends Fragment implements View.OnClickListener {
         percentage=(MaterialEditText)view.findViewById(R.id.percentage);
         total=(MaterialEditText)view.findViewById(R.id.total);
         cardView=view.findViewById(R.id.plus2);
-        progressDialog=new ProgressDialog(getContext());
-        progressDialog.setMessage("Saving");
-        progressDialog.setCancelable(false);
-
+        dialogLoading=new DialogLoading(getContext());
+        dialogLoading.setCancelable(false);
         plus2=(RadioButton)view.findViewById(R.id.radio1);
         diploma=(RadioButton)view.findViewById(R.id.radio2);
 
@@ -93,10 +91,16 @@ public class registerIV extends Fragment implements View.OnClickListener {
         diploma.setOnClickListener(this);
 
 
-        view.findViewById(R.id.mywidget).setSelected(true);
 
-        floatingActionButton=(FloatingActionButton)view.findViewById(R.id.fab2);
+
+        floatingActionButton=(ImageView) view.findViewById(R.id.fab2);
         floatingActionButton.setOnClickListener(this);
+
+
+        floatingActionButton2=(ImageView) view.findViewById(R.id.fab1);
+        floatingActionButton2.setOnClickListener(this);
+
+
 
         marks.addTextChangedListener(new TextWatcher() {
             @Override
@@ -160,8 +164,14 @@ public class registerIV extends Fragment implements View.OnClickListener {
         if(view == floatingActionButton){
             if(validate()){
                 setvalues();
+
             }
 
+        }
+
+        if(view==floatingActionButton2){
+            change i=(change) getContext();
+            i.changePage(2);
         }
 
         if(view==diploma){
@@ -225,16 +235,15 @@ public class registerIV extends Fragment implements View.OnClickListener {
         markSheet.setPercentage(percentage.getText().toString());
         markSheet.setSchool(school.getText().toString());
 
-        progressDialog.show();
+        dialogLoading.showdialog("Fetching...");
 
         FirebaseFirestore.getInstance().collection("Students").document(FirebaseAuth.getInstance().getUid()).collection("Marksheets").document(doc)
                 .set(markSheet).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                progressDialog.dismiss();
                 if(task.isSuccessful()){
-                    change i=(change)getActivity();
-                    i.changePage(3);
+                    getActivity().startActivity(new Intent(getContext(),DashboardActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                    getActivity().finish();
                 }else{
                     Toast.makeText(getContext(),"Some Error Occured",Toast.LENGTH_SHORT).show();
                 }
@@ -262,21 +271,21 @@ public class registerIV extends Fragment implements View.OnClickListener {
     }
 
     private void upload(Uri data) {
-        progressDialog.show();
+        dialogLoading.showdialog("Uploading...");
 
-        FirebaseStorage.getInstance().getReference("Marksheets/"+FirebaseAuth.getInstance().getUid()+"/"+System.currentTimeMillis()).putFile(data)
+        FirebaseStorage.getInstance().getReference("Marksheets/"+FirebaseAuth.getInstance().getUid()+"/"+doc).putFile(data)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         if(taskSnapshot.getDownloadUrl()!=null){
-                            progressDialog.dismiss();
+                            dialogLoading.dismiss();
                             markSheet.setPicture(taskSnapshot.getDownloadUrl().toString());
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                progressDialog.dismiss();
+                dialogLoading.dismiss();
                 Toast.makeText(getContext(),"Error: "+e.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });

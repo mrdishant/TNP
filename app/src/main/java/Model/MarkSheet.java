@@ -1,4 +1,4 @@
-package in.ac.gndec.tnp;
+package Model;
 
 /**
  * Created by mrdis on 1/12/2018.
@@ -6,7 +6,7 @@ package in.ac.gndec.tnp;
 
 public class MarkSheet {
 
-    String school,board,marksobtained,total,percentage,picture;
+    public String school,board,marksobtained,total,percentage,picture;
 
     public MarkSheet() {
     }

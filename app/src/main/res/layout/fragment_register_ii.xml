@@ -155,29 +155,23 @@
             </LinearLayout>
 
 
-            <android.support.design.widget.FloatingActionButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="bottom|left"
-                app:fabSize="normal"
-                android:background="@color/colorPrimary"
+                android:src="@drawable/arrowleft"
                 android:translationZ="5dp"
                 android:id="@+id/fab1"
-                android:src="@drawable/backarrow"
-                android:backgroundTint="@null"
                 />
 
 
-            <android.support.design.widget.FloatingActionButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="bottom|right"
-                app:fabSize="normal"
-                android:background="@color/colorPrimary"
+                android:src="@drawable/arrowright"
                 android:translationZ="5dp"
                 android:id="@+id/fab2"
-                android:src="@drawable/arrow"
-                android:backgroundTint="@null"
                 />
 
         </android.support.design.widget.CoordinatorLayout>

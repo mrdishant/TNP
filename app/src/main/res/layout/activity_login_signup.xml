@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/loginscreen2"
+    android:background="@drawable/wall"
     tools:context="in.ac.gndec.tnp.LoginSignup">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <ProgressBar
         android:layout_width="match_parent"
@@ -19,19 +23,65 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_height="match_parent"
+        android:padding="5dp"
         android:orientation="vertical"
         android:translationZ="5dp">
 
         <ImageView
-            android:layout_width="150dp"
+            android:layout_width="250dp"
             android:layout_height="150dp"
+            android:translationZ="10dp"
+            android:id="@+id/logo"
+            android:layout_marginTop="20dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="80dp"
+            android:layout_marginBottom="10dp"
             android:src="@drawable/gne_fb_logo" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="120dp"
+                android:text="Login"
+                android:id="@+id/loginbtn"
+                android:translationZ="10dp"
+                android:layout_marginLeft="15dp"
+                android:textSize="24dp"
+                android:textColor="@android:color/white"
+                android:textAllCaps="false"
+                android:background="@drawable/btnback"
+                android:layout_height="120dp" />
+
+
+            <Button
+                android:layout_marginLeft="70dp"
+                android:layout_width="120dp"
+                android:text="Sign up"
+                android:id="@+id/signupbtn"
+                android:textSize="20dp"
+                android:textColor="@android:color/white"
+                android:background="@android:color/transparent"
+                android:textAllCaps="false"
+                android:layout_height="120dp" />
+
+        </LinearLayout>
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:translationZ="10dp"
+            android:visibility="gone"
+            android:id="@+id/profile"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+           android:layout_marginBottom="10dp"
+            android:src="@drawable/profile" />
+
+
 
         <EditText
             android:id="@+id/name"
@@ -39,8 +89,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:alpha="0.3"
+            android:translationZ="10dp"
             android:background="@drawable/edittext"
-            android:drawableLeft="@drawable/username"
+            android:drawableLeft="@drawable/name"
             android:visibility="gone"
             android:drawablePadding="10dp"
             android:hint="Name"
@@ -57,6 +108,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:alpha="0.3"
+            android:translationZ="10dp"
             android:background="@drawable/edittext"
             android:drawableLeft="@drawable/email"
             android:drawablePadding="10dp"
@@ -71,8 +123,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:alpha="0.3"
+            android:translationZ="10dp"
             android:background="@drawable/edittext"
-            android:drawableLeft="@drawable/lock"
+            android:drawableLeft="@drawable/password"
             android:drawablePadding="10dp"
             android:hint="Password"
             android:inputType="textPassword"
@@ -80,11 +133,14 @@
             android:textColorHint="@android:color/black" />
 
         <Button
-            android:layout_width="match_parent"
+            android:layout_gravity="right"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/button"
             android:text="Login"
+            android:textSize="16dp"
+            android:translationZ="10dp"
             android:id="@+id/login"
             android:textAllCaps="false"
             android:textColor="@android:color/white" />
@@ -93,24 +149,26 @@
         <com.shobhitpuri.custombuttons.GoogleSignInButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginTop="10dp"
+            android:translationZ="10dp"
+            app:isDarkTheme="true"
             android:id="@+id/googlebutton"
-            android:background="@drawable/button"
             />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_weight="50"
+            android:gravity="center"
+            android:id="@+id/textsignup"
+            android:layout_margin="5dp"
+            android:textAlignment="center"
             android:layout_height="wrap_content"
-            android:text="Create New Account"
-            android:id="@+id/newaccount"
+            android:text="Don't have an account? Signup"
             android:textColor="@android:color/white"
-            android:layout_marginTop="15dp"
             android:layout_gravity="center"
             android:textSize="20dp"
             />
 
-
     </LinearLayout>
-
-
-</RelativeLayout>
+    </RelativeLayout>
+</android.support.v4.widget.NestedScrollView>

@@ -1,16 +1,14 @@
 package in.ac.gndec.tnp;
 
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ProgressBar;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -23,6 +21,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.rengwuxian.materialedittext.MaterialAutoCompleteTextView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import Interface.change;
+import Model.Student;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,7 +35,7 @@ public class registerII extends Fragment {
     MaterialAutoCompleteTextView branch;
     Spinner shift,blood_group;
     Student student;
-    ProgressBar progressBar;
+    DialogLoading dialogLoading;
 
     public registerII() {
         // Required empty public constructor
@@ -47,8 +48,9 @@ public class registerII extends Fragment {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_register_ii, container, false);
 
-        FloatingActionButton floatingActionButton=(FloatingActionButton)view.findViewById(R.id.fab1);
-        floatingActionButton.setBackgroundColor(Color.TRANSPARENT);
+        dialogLoading=new DialogLoading(getContext());
+        dialogLoading.setCancelable(false);
+        ImageView floatingActionButton=(ImageView) view.findViewById(R.id.fab1);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,8 +60,7 @@ public class registerII extends Fragment {
             }
         });
 
-        FloatingActionButton floatingActionButton2=(FloatingActionButton)view.findViewById(R.id.fab2);
-        floatingActionButton2.setBackgroundColor(Color.TRANSPARENT);
+        ImageView floatingActionButton2=(ImageView) view.findViewById(R.id.fab2);
         floatingActionButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,7 +71,7 @@ public class registerII extends Fragment {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                                 if(documentSnapshot.exists()){
-                                    progressBar.setVisibility(View.VISIBLE);
+                                    dialogLoading.showdialog("Loading..");
                                     student=documentSnapshot.toObject(Student.class);
                                     setValues();
                                 }else{
@@ -87,7 +88,39 @@ public class registerII extends Fragment {
         initviews(view);
 
 
+        FirebaseFirestore.getInstance().collection("Students").document(FirebaseAuth.getInstance().getUid())
+                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.exists()){
+                    student=documentSnapshot.toObject(Student.class);
+                    setValues1();
+                }else{
+                    Toast.makeText(getContext(),"Some Error Occured",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         return view;
+
+    }
+
+    private void setValues1() {
+
+
+        if(student==null){
+            return;
+        }
+
+        category.setText(student.category);
+        height.setText(""+student.height);
+        weight.setText(""+student.weight);
+        if(student.shift!=null && student.shift.equals("Evening")){
+            shift.setSelection(1);
+        }else{
+            shift.setSelection(0);
+        }
+        branch.setText(student.branch);
 
     }
 
@@ -143,9 +176,8 @@ public class registerII extends Fragment {
                 .set(student).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                progressBar.setVisibility(View.GONE);
+                dialogLoading.dismiss();
                     if(task.isSuccessful()){
-                        //Toast.makeText(getContext(),"ThankYou",Toast.LENGTH_SHORT).show();
                         change i=(change) getContext();
                         i.changePage(2);
                     }
@@ -160,7 +192,6 @@ public class registerII extends Fragment {
         weight=(MaterialEditText)view.findViewById(R.id.weight);
         category=(MaterialEditText)view.findViewById(R.id.category);
 
-        progressBar=(ProgressBar)view.findViewById(R.id.progress);
 
 
         blood_group=(Spinner)view.findViewById(R.id.blood);

@@ -1,4 +1,4 @@
-package in.ac.gndec.tnp;
+package Model;
 
 /**
  * Created by mrdis on 1/11/2018.
@@ -6,14 +6,14 @@ package in.ac.gndec.tnp;
 
 public class Student {
 
-    String name;
-    String branch;
-    String shift;
-    String blood_group;
-    String category;
-    long collegeroll,universityroll;
-    float height,weight;
-    Guardian father,mother;
+    public String name;
+    public String branch;
+    public String shift;
+    public String blood_group;
+    public String category;
+    public long collegeroll,universityroll;
+    public float height,weight;
+    public Guardian father,mother;
 
     public static final String Name="name";
     public static final String Branch ="branch";

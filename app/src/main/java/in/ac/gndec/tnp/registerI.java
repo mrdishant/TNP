@@ -1,15 +1,13 @@
 package in.ac.gndec.tnp;
 
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -21,20 +19,15 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
-import java.util.HashMap;
+import Interface.change;
+import Model.Guardian;
+import Model.Student;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
-interface change{
-     void changePage(int position);
-}
 
 public class registerI extends Fragment {
 
+    DialogLoading dialogLoading;
     Student student;
-
     MaterialEditText college,university,fname,mname,foocupation,moccupation,mcontact,fcontact;
     ProgressBar progressBar;
 
@@ -49,7 +42,8 @@ public class registerI extends Fragment {
         // Inflate the layout for this fragment
 
         View view=inflater.inflate(R.layout.fragment_register_i, container, false);
-
+        dialogLoading=new DialogLoading(getContext());
+        dialogLoading.setCancelable(false);
         college=(MaterialEditText)view.findViewById(R.id.college);
         university=(MaterialEditText)view.findViewById(R.id.university);
         fname=(MaterialEditText)view.findViewById(R.id.fname);
@@ -63,33 +57,60 @@ public class registerI extends Fragment {
 
 
 
-        FloatingActionButton floatingActionButton=(FloatingActionButton)view.findViewById(R.id.fab1);
-        floatingActionButton.setBackgroundColor(Color.TRANSPARENT);
+
+        ImageView floatingActionButton=(ImageView) view.findViewById(R.id.fab1);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
+
 
                 if(validate()){
-
-                    FirebaseFirestore.getInstance().collection("Students").document(FirebaseAuth.getInstance().getUid())
-                            .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            if(documentSnapshot.exists()){
-                                student=documentSnapshot.toObject(Student.class);
-                                setValues();
-                            }
-                        }
-                    });
-
+                    dialogLoading.showdialog("Saving..");
+                    setValues();
                 }
 
             }
         });
 
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null){
+            FirebaseFirestore.getInstance().collection("Students").document(FirebaseAuth.getInstance().getUid())
+                    .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    if(documentSnapshot.exists()){
+                        student=documentSnapshot.toObject(Student.class);
+                        setValues1();
+                    }
+                }
+            });
+
+        }
+
 
         return view;
+    }
+
+    private void setValues1() {
+
+        if(student==null || student.collegeroll==0){
+            return;
+        }
+
+
+        college.setText(student.collegeroll+"");
+        university.setText(student.universityroll+"");
+        if(student.father!=null){
+
+            foocupation.setText(""+student.father.occupation);
+            fcontact.setText(student.father.contact);
+            fname.setText(student.father.name);
+        }
+        if(student.mother!=null){
+
+            moccupation.setText(student.mother.occupation);
+            mcontact.setText(student.mother.contact);
+            mname.setText(student.mother.name);
+        }
     }
 
     private void setValues() {
@@ -125,11 +146,11 @@ public class registerI extends Fragment {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                     if(task.isSuccessful()){
-                        progressBar.setVisibility(View.GONE);
+                        dialogLoading.dismiss();
                         change i=(change) getContext();
                         i.changePage(1);
                     }else{
-                        progressBar.setVisibility(View.GONE);
+                        dialogLoading.dismiss();
                         Toast.makeText(getContext(),"Error : "+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                     }
             }
@@ -177,14 +198,14 @@ public class registerI extends Fragment {
         }
 
 
-        if(fcontact.getText().toString().length()<10){
+        if(fcontact.getText().toString().length()!=10){
             fcontact.setError("Valid Contact Required");
             fcontact.requestFocus();
             return false;
         }
 
 
-        if(mcontact.getText().toString().length()<10){
+        if(mcontact.getText().toString().length()!=10){
             mcontact.setError("Valid Contact Required");
             mcontact.requestFocus();
             return false;
